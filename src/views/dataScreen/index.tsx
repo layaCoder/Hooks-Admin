@@ -74,6 +74,11 @@ const DataScreen = () => {
 		}
 	});
 
+	console.log(longWangMiao1, 777)
+
+	console.log(longWangMiao2, 9999)
+
+
 	return (
 		<div className="dataScreen-container">
 			<div className="dataScreen" ref={dataScreenRef}>
@@ -85,7 +90,7 @@ const DataScreen = () => {
 					</div>
 					<div className="header-ct">
 						<div className="header-ct-title">
-							<span>大数据展示平台</span>
+							<span>汉口设备大数据展示平台</span>
 						</div>
 					</div>
 					<div className="header-rg">
@@ -104,7 +109,7 @@ const DataScreen = () => {
 								<img src={dataScreenTitle} alt="" />
 							</div>
 							<div className="dataScreen-main-chart">
-								<OverNext30Chart />
+								<OverNext30Chart equiptData={{ longWangMiao1, longWangMiao2 }} />
 							</div>
 						</div>
 					</div>
@@ -115,7 +120,7 @@ const DataScreen = () => {
 								<img src={dataScreenTitle} alt="" />
 							</div>
 							<div className="dataScreen-main-chart">
-								<HotPlateChart />
+								<HotPlateChart equiptData={longWangMiao1[0]} />
 							</div>
 						</div>
 						<div className="dataScreen-top">
@@ -124,7 +129,7 @@ const DataScreen = () => {
 								<img src={dataScreenTitle} alt="" />
 							</div>
 							<div className="dataScreen-main-chart">
-								<HotPlateChart />
+								<HotPlateChart equiptData={longWangMiao2[0]} />
 							</div>
 						</div>
 						{/* <div className="dataScreen-center">

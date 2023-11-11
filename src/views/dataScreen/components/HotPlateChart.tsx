@@ -1,3 +1,4 @@
+import Ract from "react";
 import { useEcharts } from "@/hooks/useEcharts";
 import { EChartsOption } from "echarts";
 import { ranking1, ranking2, ranking3, ranking4 } from "../assets/ranking-icon";
@@ -8,37 +9,45 @@ interface ChartProp {
 	percentage: string;
 	maxValue: number;
 }
-const HotPlateChart = () => {
+const HotPlateChart = (props: any) => {
+	const { equiptData = {} } = props;
+
 	let data = [
 		{
-			value: 79999,
-			name: "峨眉山",
-			percentage: "80%",
-			maxValue: 100000
+			value: Math.abs(Number(equiptData.DE)),
+			name: "东坐标偏值",
+			// percentage: `${Math.abs(Number(equiptData.DE))}%`,
+			maxValue: 0.5
 		},
 		{
-			value: 59999,
-			name: "稻城亚丁",
-			percentage: "60%",
-			maxValue: 100000
+			value: Math.abs(Number(equiptData.DH)),
+			name: "高程移偏值",
+			// percentage: "60%",
+			maxValue: 0.5
 		},
 		{
-			value: 49999,
-			name: "九寨沟",
-			percentage: "50%",
-			maxValue: 100000
+			value: Math.abs(Number(equiptData.DN)),
+			name: "北坐标位值",
+			// percentage: "50%",
+			maxValue: 0.5
 		},
 		{
-			value: 39999,
-			name: "万里长城",
-			percentage: "40%",
-			maxValue: 100000
+			value: Math.abs(Number(equiptData.DX)),
+			name: "空间北坐标",
+			// percentage: "50%",
+			maxValue: 10
 		},
 		{
-			value: 29999,
-			name: "北京故宫",
-			percentage: "30%",
-			maxValue: 100000
+			value: Math.abs(Number(equiptData.DY)),
+			name: "空间东坐标",
+			// percentage: "40%",
+			maxValue: 10
+		},
+		{
+			value: Math.abs(Number(equiptData.DZ)),
+			name: "空间高程坐标",
+			// percentage: "30%",
+			maxValue: 10
 		}
 	];
 	const colors = ["#1089E7", "#F57474", "#56D0E3", "#F8B448", "#8B78F6"];
@@ -92,7 +101,7 @@ const HotPlateChart = () => {
 					formatter: function (value: any) {
 						let str = value.length > 6 ? value.slice(0, 6) + "..." : value;
 						let index = data.map((item: ChartProp) => item.name).indexOf(value) + 1;
-						return ["{" + (index > 3 ? "lg" : "lg" + index) + "|NO." + index + "}", "{title|" + str + "}"].join(" ");
+						return ["{title|" + str + "}", "{" + (index > 3 ? "lg" : "lg" + index) + "|NO." + index + "}"].join(" ");
 					},
 					rich: {
 						lg1: {
@@ -155,7 +164,7 @@ const HotPlateChart = () => {
 					// align: "right",
 					margin: 20,
 					formatter: (value: any) => {
-						return value >= 10000 ? (value / 10000).toFixed(2) + "w" : value;
+						return value;
 					}
 				},
 				axisLine: {
@@ -169,61 +178,80 @@ const HotPlateChart = () => {
 				},
 				triggerEvent: false
 			}
-		],
-		series: [
-			{
-				name: "条",
-				type: "bar",
-				yAxisIndex: 0,
-				data: data,
-				barWidth: 12,
-				itemStyle: {
-					borderRadius: 30,
-					color: function (params) {
-						let num = colors.length;
-						return colors[params.dataIndex % num];
-					}
-				},
-				label: {
-					show: true,
-					position: [12, 0],
-					lineHeight: 14,
-					color: "#fff",
-					formatter: (params: any) => {
-						return params.data.percentage;
-					}
-				}
-			},
-			{
-				name: "框",
-				type: "bar",
-				yAxisIndex: 1,
-				data: data.map((val: ChartProp) => {
-					if (!val.maxValue) {
-						return 5;
-					}
-					return val.maxValue;
-				}),
-				barWidth: 18,
-				itemStyle: {
-					color: "none",
-					borderColor: "#00c1de",
-					borderWidth: 1,
-					borderRadius: 15
-				},
-				silent: true
-			}
 		]
+		// series: [
+		// 	{
+		// 		name: "条",
+		// 		type: "bar",
+		// 		yAxisIndex: 0,
+		// 		data: data,
+		// 		barWidth: 12,
+		// 		itemStyle: {
+		// 			borderRadius: 30,
+		// 			color: function (params) {
+		// 				console.log(params, 186)
+		// 				let num = colors.length;
+		// 				return colors[params.dataIndex % num];
+		// 			}
+		// 		},
+		// 		label: {
+		// 			show: true,
+		// 			position: [12, 0],
+		// 			lineHeight: 14,
+		// 			color: "#fff",
+		// 			formatter: (params: any) => {
+		// 				return params.data.percentage;
+		// 			}
+		// 		}
+		// 	},
+		// 	{
+		// 		name: "框",
+		// 		type: "bar",
+		// 		yAxisIndex: 1,
+		// 		data: data.map((val: ChartProp) => {
+		// 			if (!val.maxValue) {
+		// 				return 5;
+		// 			}
+		// 			return val.maxValue;
+		// 		}),
+		// 		barWidth: 12,
+		// 		itemStyle: {
+		// 			color: "none",
+		// 			borderColor: "#00c1de",
+		// 			borderWidth: 1,
+		// 			borderRadius: 15
+		// 		},
+		// 		silent: true
+		// 	}
+		// ]
 	};
 	const [echartsRef] = useEcharts(option, data);
+
+	const renderRow = (key, value) => {
+		return (
+			<div className="echarts-content ">
+				<span className="key-txt">{key}</span>
+				<span className="up-down-txt">{value > 0 ? "上升" : "下降"}</span>
+				<span className="value-txt">{value}</span>
+			</div>
+		);
+	};
+
 	return (
 		<>
 			<div className="echarts-header">
-				<span>排名</span>
-				<span>景区</span>
-				<span>预约数量</span>
+				<span>坐标</span>
+				<span className="colum-2">正负</span>
+				<span>偏移值</span>
 			</div>
-			<div ref={echartsRef} className="hot-echarts"></div>
+			<div className="data-area">
+				<div>{renderRow("平面东坐标位移偏值", equiptData.DE)}</div>
+				<div>{renderRow("平面高程坐标位移偏值", equiptData.DH)}</div>
+				<div>{renderRow("平面北坐标位移偏值", equiptData.DN)}</div>
+				<div>{renderRow("空间直角北坐标差值", equiptData.DX)}</div>
+				<div>{renderRow("空间直角东坐标差值", equiptData.DY)}</div>
+				<div>{renderRow("空间直角高程坐标差值", equiptData.DZ)}</div>
+			</div>
 		</>
 	);
 };
