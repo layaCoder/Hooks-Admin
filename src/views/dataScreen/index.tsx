@@ -4,10 +4,12 @@ import { HOME_URL } from "@/config/config";
 // import AnnualUseChart from "./components/AnnualUseChart";
 import { getLongWangMiao1, getLongWangMiao2 } from "../../service/index";
 import HotPlateChart from "./components/HotPlateChart";
+import RealTimeAccessChart from "./components/RealTimeAccessChart";
 import OverNext30Chart from "./components/OverNext30Chart";
 import ChinaMapChart from "./components/ChinaMapChart";
 import Headertime from "./components/DataHeaderTime";
 import dataScreenTitle from "./images/dataScreen-title.png";
+import weatherCloudy from "./images/weather/cloudy.png"
 import { useRequest } from "ahooks";
 import dayjs from "dayjs";
 
@@ -99,6 +101,33 @@ const DataScreen = () => {
 					</div>
 				</div>
 				<div className="dataScreen-main">
+					<div className="dataScreen-lf">
+						<div className="dataScreen-top">
+							<div className="dataScreen-main-title">
+								<span>天气信息</span>
+								<img src={dataScreenTitle} alt="" />
+							</div>
+							<div className="weather-wrapper">
+								<img src={weatherCloudy} alt="天气" />
+								<span>多云 : 26℃</span>
+								{/* 天气信息 */}
+							</div>
+						</div>
+						<div className="dataScreen-center">
+							<div className="dataScreen-main-title">
+								<span>视频展示</span>
+								<video
+									autoPlay
+									loop
+									className="video-player"
+									controls
+									src='https://layablog.top/images/Titanfall.mp4' />
+							</div>
+							<div className="dataScreen-main-chart">
+								{/* <MaleFemaleRatioChart /> */}
+							</div>
+						</div>
+					</div>
 					<div className="dataScreen-ct">
 						<div className="dataScreen-map">
 							<ChinaMapChart />
