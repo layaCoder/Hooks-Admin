@@ -66,6 +66,7 @@ const DataScreen = () => {
 
 	useRequest(getLongWangMiao2, {
 		onSuccess: res => {
+			console.log(res, 'response', 699)
 			const {
 				result: { data, count }
 			} = res || {};
