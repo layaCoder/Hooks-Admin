@@ -9,7 +9,7 @@ import OverNext30Chart from "./components/OverNext30Chart";
 import ChinaMapChart from "./components/ChinaMapChart";
 import Headertime from "./components/DataHeaderTime";
 import dataScreenTitle from "./images/dataScreen-title.png";
-import weatherCloudy from "./images/weather/cloudy.png"
+import weatherCloudy from "./images/weather/cloudy.png";
 import { useRequest } from "ahooks";
 import dayjs from "dayjs";
 
@@ -55,7 +55,9 @@ const DataScreen = () => {
 	useRequest(getLongWangMiao1, {
 		onSuccess: res => {
 			const {
-				result: { data, count }
+				data: {
+					result: { data, count }
+				}
 			} = res || {};
 			data.sort(function (a, b) {
 				return dayjs(b.DateTime).valueOf() - dayjs(a.DateTime).valueOf();
@@ -66,9 +68,11 @@ const DataScreen = () => {
 
 	useRequest(getLongWangMiao2, {
 		onSuccess: res => {
-			console.log(res, 'response', 699)
+			console.log(res, "response", 699);
 			const {
-				result: { data, count }
+				data: {
+					result: { data, count }
+				}
 			} = res || {};
 			data.sort(function (a, b) {
 				return dayjs(b.DateTime).valueOf() - dayjs(a.DateTime).valueOf();
@@ -77,10 +81,9 @@ const DataScreen = () => {
 		}
 	});
 
-	console.log(longWangMiao1, 777)
+	console.log(longWangMiao1, 777);
 
-	console.log(longWangMiao2, 9999)
-
+	console.log(longWangMiao2, 9999);
 
 	return (
 		<div className="dataScreen-container">
@@ -117,16 +120,9 @@ const DataScreen = () => {
 						<div className="dataScreen-center">
 							<div className="dataScreen-main-title">
 								<span>视频展示</span>
-								<video
-									autoPlay
-									loop
-									className="video-player"
-									controls
-									src='https://layablog.top/images/Titanfall.mp4' />
+								<video autoPlay loop className="video-player" controls src="https://layablog.top/images/Titanfall.mp4" />
 							</div>
-							<div className="dataScreen-main-chart">
-								{/* <MaleFemaleRatioChart /> */}
-							</div>
+							<div className="dataScreen-main-chart">{/* <MaleFemaleRatioChart /> */}</div>
 						</div>
 					</div>
 					<div className="dataScreen-ct">
